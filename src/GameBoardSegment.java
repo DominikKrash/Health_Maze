@@ -37,7 +37,7 @@ public class GameBoardSegment{
                 in = new FileReader(patternNames[i]);
                 int nextSign;
                 int counter = 0;
-                while((nextSign = in.read()) != -1 && (counter < (blockNumber * blockNumber) - 1)){
+                while((nextSign = in.read()) != -1 && (counter < (blockNumber * blockNumber))){
                     segmentPattern[i][counter] = Character.getNumericValue(nextSign);
                     counter++;
                 }

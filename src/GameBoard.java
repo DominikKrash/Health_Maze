@@ -7,6 +7,8 @@ public class GameBoard extends Canvas {
     final private String bushUrl = "src/Resources/Images/bush.png";
     final private String bushLeftUrl = "src/Resources/Images/bushRotateLeft.png";
     final private String bushRightUrl = "src/Resources/Images/bushRotateRight.png";
+    final private String pathUrl = "src/Resources/Images/path.png";
+    final private String wallUrl = "src/Resources/Images/wall.png";
 
     final private int numberOfPanels = 2;
     final private int lengthOfPanel = 9;
@@ -73,7 +75,21 @@ public class GameBoard extends Canvas {
             g.drawImage(img,x,y*blockSize,this);
         }
     }
+   public void paintSegments(Graphics g){
+        Image pathIMG = getToolkit().getImage(pathUrl);
+        Image wallIMG = getToolkit().getImage(wallUrl);
+
+        for(int y = 0;y < lengthOfPanel * numberOfPanels;y++){
+            for(int x = 0; x < lengthOfPanel * numberOfPanels;x++){
+                if(gameBoardDesign[y][x] == 0)
+                    g.drawImage(pathIMG,dX + x*blockSize + blockSize  ,y*blockSize + blockSize,this);
+                else if(gameBoardDesign[y][x] == 1)
+                    g.drawImage(wallIMG,dX + x*blockSize + blockSize,y*blockSize + blockSize,this);
+            }
+        }
+   }
    public void paint(Graphics g){
        paintSides(g);
+       paintSegments(g);
     }
 }
