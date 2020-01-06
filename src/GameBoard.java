@@ -28,10 +28,19 @@ public class GameBoard extends Canvas {
                 [numberOfPanels * lengthOfPanel][numberOfPanels * lengthOfPanel];
         setUpGameBoard();
         //fill entire board
-        for(int i = 0;i< numberOfPanels * numberOfPanels;i++){// number of all segments to copy
+        fillBoard();
+    }
+    private void fillBoard(){
+        for(int i = 0,dx= 0,dy = 0;i< numberOfPanels * numberOfPanels;i++,dx++){// number of all segments to copy
+            int[] tmpPattern =  gameBoardSegments[i].getPattern();
+            if(i % numberOfPanels == 0 && i != 0){
+                dx = 0;
+                dy++;
+            }
             for(int y = 0;y<lengthOfPanel;y++){
                 for(int x = 0; x<lengthOfPanel;x++){
-
+                    gameBoardDesign[y+(lengthOfPanel*dx)][x+(lengthOfPanel*dy)]
+                            = tmpPattern[y*lengthOfPanel+x];
                 }
             }
         }
@@ -42,26 +51,29 @@ public class GameBoard extends Canvas {
             gameBoardSegments[i] = new GameBoardSegment();
         }
     }
-   public void paint(Graphics g){
+    void paintSides(Graphics g){
         Image img;
-       //upper line
-       img = getToolkit().getImage(bushUrl);
-       for(int x =0,y = 0;x<sideLength;x++){
-           g.drawImage(img,x * blockSize + dX,y,this);
-       }
-       //lower line
-       for(int x = 0,y = 19 * blockSize;x<sideLength;x++){
-           g.drawImage(img,x*blockSize+dX,y,this);
-       }
-       //left line
-       img = getToolkit().getImage(bushLeftUrl);
-       for(int x = dX,y = 1;y<sideLength-1;y++){
-           g.drawImage(img,x,y*blockSize,this);
-       }
-       //right line
-       img = getToolkit().getImage(bushRightUrl);
+        //upper line
+        img = getToolkit().getImage(bushUrl);
+        for(int x =0,y = 0;x<sideLength;x++){
+            g.drawImage(img,x * blockSize + dX,y,this);
+        }
+        //lower line
+        for(int x = 0,y = 19 * blockSize;x<sideLength;x++){
+            g.drawImage(img,x*blockSize+dX,y,this);
+        }
+        //left line
+        img = getToolkit().getImage(bushLeftUrl);
+        for(int x = dX,y = 1;y<sideLength-1;y++){
+            g.drawImage(img,x,y*blockSize,this);
+        }
+        //right line
+        img = getToolkit().getImage(bushRightUrl);
         for(int x = dX + 19 * blockSize,y = 1;y<sideLength-1;y++){
             g.drawImage(img,x,y*blockSize,this);
         }
+    }
+   public void paint(Graphics g){
+       paintSides(g);
     }
 }

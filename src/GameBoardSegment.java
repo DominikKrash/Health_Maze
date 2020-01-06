@@ -21,6 +21,10 @@ public class GameBoardSegment{
         }
     }
 
+    public int[] getPattern() {
+        return pattern;
+    }
+
     public static void setBlockNumber(int blockNumber) {
         GameBoardSegment.blockNumber = blockNumber;
     }
