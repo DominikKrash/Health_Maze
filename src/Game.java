@@ -5,7 +5,8 @@ public class Game extends JFrame{
     private final String gameName = "Health Maze";
     private int screenHeight = 1024;
     private int screenWidth = 1280;
-    private final int blockPixelWidth = 32;
+    private final int blockPixelWidth = 40;
+    private final int blockNumberPerSegment = 9;
     private GameBoard gameBoard;
 
     public int getBlockPixelWidth() {
@@ -21,7 +22,9 @@ public class Game extends JFrame{
     }
 
     public Game(){
-        this.gameBoard = new GameBoard();
+        GameBoardSegment.setBlockNumber(blockNumberPerSegment);
+        GameBoardSegment.getSegmentPatterns();
+        this.gameBoard = new GameBoard(getBlockPixelWidth());
         initWindows();
     }
 

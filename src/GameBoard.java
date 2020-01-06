@@ -4,36 +4,41 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class GameBoard extends Canvas {
-    final private String bushUrl = "src/Resources/Images/bush.jpg";
-    final private String bushLeftUrl = "src/Resources/Images/bush_rotateLeft.jpg";
-    final private String bushRightUrl = "src/Resources/Images/bush_rotateRight.jpg";
+    final private String bushUrl = "src/Resources/Images/bush.png";
+    final private String bushLeftUrl = "src/Resources/Images/bushRotateLeft.png";
+    final private String bushRightUrl = "src/Resources/Images/bushRotateRight.png";
+    final private int numberOfPanels = 2;
+    final private int lengthOfPanel = 9;
     private int dX = 240;
+    private int sideLength = (9 * numberOfPanels) + 2; // full length plus corners
+    private int blockSize;
+    int getBlockSize(){
+        return this.blockSize;
+    }
 
-
-    GameBoard(){
-
+    GameBoard(int blockSize){
+        this.blockSize = blockSize;
     }
    public void paint(Graphics g){
-        for(int i = 0;i<20;i++){
-            for(int j = 0;j < 20;j++) {
-                if(i == 0 || j == 0 || i == 19 || j == 19)
-                try {
-                    Image img;
-                    if(i == 0 && j != 0 && j != 19){
-                        img = getToolkit().getImage(bushLeftUrl);
-                    }else if(i == 19 && j < 19 && j >0){
-                        img = getToolkit().getImage(bushRightUrl);
-                    }
-                    else{
-                        img = getToolkit().getImage(bushUrl);
-                    }
-                    g.drawImage(img, i *32+dX, j*32, this);
-
-                } catch (Exception e) {
-                    System.out.println("Cant draw image");
-                    e.printStackTrace();
-                }
-            }
+        Image img;
+       //upper line
+       img = getToolkit().getImage(bushUrl);
+       for(int x =0,y = 0;x<20;x++){
+           g.drawImage(img,x * blockSize + dX,y,this);
+       }
+       //lower line
+       for(int x = 0,y = 19 * blockSize;x<20;x++){
+           g.drawImage(img,x*blockSize+dX,y,this);
+       }
+       //left line
+       img = getToolkit().getImage(bushLeftUrl);
+       for(int x = dX,y = 1;y<19;y++){
+           g.drawImage(img,x,y*blockSize,this);
+       }
+       //right line
+       img = getToolkit().getImage(bushRightUrl);
+        for(int x = dX + 19 * blockSize,y = 1;y<19;y++){
+            g.drawImage(img,x,y*blockSize,this);
         }
     }
 }
