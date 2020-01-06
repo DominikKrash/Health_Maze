@@ -6,5 +6,6 @@ public class Hero extends Item {
         this.setPosY(y);
         this.setSkinURL("src/Resources/Images/hero.png");
     }
+    public
 
 }

@@ -1,6 +1,8 @@
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Game extends JFrame{
+public class Game extends JFrame  {
     private final String version = "0.1";
     private final String gameName = "Health Maze";
     private int screenHeight = 1024;
@@ -36,6 +38,7 @@ public class Game extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
     }
 
 
