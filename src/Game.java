@@ -29,7 +29,6 @@ public class Game extends JFrame{
     }
 
     private void initWindows(){
-
         add(getGameBoard());
         pack();
         setTitle(gameName + " " + version);

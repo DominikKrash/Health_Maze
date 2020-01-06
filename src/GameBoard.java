@@ -1,7 +1,9 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Console;
 import java.io.File;
+import java.util.Random;
 
 public class GameBoard extends Canvas {
     final private String bushUrl = "src/Resources/Images/bush.png";
@@ -17,6 +19,7 @@ public class GameBoard extends Canvas {
     private int blockSize;
 
     private GameBoardSegment[] gameBoardSegments;
+    private Hero hero;
     private int gameBoardDesign[][];
 
     /*end of variables */
@@ -31,6 +34,19 @@ public class GameBoard extends Canvas {
         setUpGameBoard();
         //fill entire board
         fillBoard();
+        this.hero = createHero();
+    }
+    public Hero createHero(){
+        Random r = new Random();
+        int x,y;
+        x = r.nextInt(lengthOfPanel * numberOfPanels);
+        y = r.nextInt(lengthOfPanel * numberOfPanels);
+        while(gameBoardDesign[y][x] != 0){
+            x = r.nextInt(lengthOfPanel * numberOfPanels);
+            y = r.nextInt(lengthOfPanel * numberOfPanels);
+        }
+        Hero hero = new Hero(x,y);
+        return hero;
     }
     private void fillBoard(){
         for(int i = 0,dx= 0,dy = 0;i< numberOfPanels * numberOfPanels;i++,dx++){// number of all segments to copy
@@ -88,8 +104,15 @@ public class GameBoard extends Canvas {
             }
         }
    }
+   private void paintHero(Graphics g){
+        Image heroIMG = getToolkit().getImage(this.hero.getSkinURL());
+        g.drawImage(heroIMG,hero.getPosX()*blockSize + dX + blockSize,
+                hero.getPosY()*blockSize + blockSize,this);
+   }
+   @Override
    public void paint(Graphics g){
        paintSides(g);
        paintSegments(g);
+       paintHero(g);
     }
 }
