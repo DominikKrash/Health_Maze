@@ -127,11 +127,11 @@ public class GameBoard extends Canvas implements KeyListener{
                 return Direction.UP;
             }else return Direction.NONE;
         }else if(btn == 'd'){
-            if(x<numberOfPanels*lengthOfPanel && gameBoardDesign[y][x+1] <= 0){
+            if(x<numberOfPanels*lengthOfPanel-1 && gameBoardDesign[y][x+1] <= 0){
                 return Direction.RIGTH;
             }else return Direction.NONE;
         }else if(btn == 's'){
-            if(y<numberOfPanels*lengthOfPanel && gameBoardDesign[y+1][x] <= 0){
+            if(y<numberOfPanels*lengthOfPanel-1 && gameBoardDesign[y+1][x] <= 0){
                 return Direction.DOWN;
             }else return Direction.NONE;
         }else if(btn == 'a'){
@@ -149,9 +149,20 @@ public class GameBoard extends Canvas implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         Direction check = checkMove(e.getKeyChar());
-        if(check == Direction.RIGTHe){
-
+        if(check == Direction.RIGTH){
+            this.hero.moveStep(1,0);
+            this.hero.playJumpSound();
+        }else if(check == Direction.LEFT){
+            this.hero.moveStep(-1,0);
+            this.hero.playJumpSound();
+        }else if(check == Direction.UP){
+            this.hero.moveStep(0,-1);
+            this.hero.playJumpSound();
+        } else if(check == Direction.DOWN){
+            this.hero.moveStep(0,1);
+            this.hero.playJumpSound();
         }
+        repaint();
     }
 
     @Override

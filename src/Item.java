@@ -1,4 +1,9 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.awt.*;
+import java.io.File;
 
 public abstract class Item {
     public void setSkinURL(String skinURL) {
@@ -40,5 +45,27 @@ public abstract class Item {
         this.posY = 0;
     }
 
+    public void moveStep(int dX,int dY){
+        setPosY(this.posY + dY);
+        setPosX(this.posX + dX);
+    }
+    public void move(int newX, int newY){
+        setPosX(newX);
+        setPosY(newY);
+    }
+    public void playSound(String fileName)  {
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(fileName));
+            clip.open(inputStream);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            double gain = 0.008;
+            float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+            gainControl.setValue(dB);
+            clip.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }
