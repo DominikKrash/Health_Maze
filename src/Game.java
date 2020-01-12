@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Game extends JFrame  {
-    private final String version = "0.5";
+    private final String version = "0.6";
     private final String gameName = "Health Maze";
     private int screenHeight = 1024;
     private int screenWidth = 1280;
