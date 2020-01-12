@@ -5,11 +5,16 @@ import java.awt.*;
 import static java.lang.Thread.sleep;
 
 public class GameTimer extends Thread {
+    private long startTime;
     private long time;
     private boolean runnning;
+    private boolean gameRunning;
     final private int textSize = 100;
-    GameTimer(int newTime){
-        this.time = newTime; // seconds into miliseconds
+    private Game game;
+
+    GameTimer(int newTime,Game game){
+        this.game = game;
+        this.startTime = newTime; // seconds into miliseconds
         Game.timerLabel = new JLabel();
         Game.timerLabel.setText(Long.toString(this.time));
         Game.timerLabel.setForeground(Color.RED);
@@ -17,25 +22,36 @@ public class GameTimer extends Thread {
         Dimension d = Game.timerLabel.getPreferredSize();
         Game.timerLabel.setBounds(50,300,d.width,d.height);
         runnning = true;
+        gameRunning = true;
     }
 
-    public long getTime() {
-        return time;
+    public long getStartTimeTime() {
+        return startTime;
     }
 
     @Override
     public void run(){
-        while(runnning){
-            try {
-                sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while(runnning) {
+            time = startTime;
+            while (gameRunning) {
+                Game.timerLabel.setText(Long.toString(this.time));
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (time <= 0) {
+                    gameRunning = false;
+                }
+                time--;
             }
-            if(time == 0 ){
+            int choice = this.game.startNewGame();
+            if(choice == 0){
                 runnning = false;
+            }else if(choice == 1){
+                gameRunning = true;
+                time = startTime;
             }
-            Game.timerLabel.setText(Long.toString(this.time));
-            time--;
         }
     }
 }

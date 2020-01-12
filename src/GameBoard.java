@@ -31,6 +31,7 @@ public class GameBoard extends Canvas implements KeyListener{
         return this.blockSize;
     }
 
+
     GameBoard(int blockSize){
         this.blockSize = blockSize;
         gameBoardDesign = new int
@@ -42,6 +43,13 @@ public class GameBoard extends Canvas implements KeyListener{
 
         addKeyListener(this);
         setFocusable(true);
+    }
+    public void resetGameBoard(){
+        gameBoardDesign = new int
+                [numberOfPanels * lengthOfPanel][numberOfPanels * lengthOfPanel];
+        setUpGameBoard();
+        fillBoard();
+        this.hero = createHero();
     }
     public Hero createHero(){
         Random r = new Random();

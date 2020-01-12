@@ -13,10 +13,14 @@ public class Game extends JFrame  {
     public static JLabel timerLabel;
     private GameBoard gameBoard;
     private GameTimer gameTimer;
-    private int gameTimeDuration = 10;
+    private int gameTimeDuration = 3;
 
     public int getBlockPixelWidth() {
         return blockPixelWidth;
+    }
+
+    public GameTimer getGameTimer() {
+        return gameTimer;
     }
 
     public void setGameBoard(GameBoard gameBoard) {
@@ -31,9 +35,25 @@ public class Game extends JFrame  {
         GameBoardSegment.setBlockNumber(blockNumberPerSegment);
         GameBoardSegment.getSegmentPatterns();
         this.gameBoard = new GameBoard(getBlockPixelWidth());
-        gameTimer = new GameTimer(gameTimeDuration);
-        gameTimer.start();
+        gameTimer = new GameTimer(gameTimeDuration,this);
         initWindows();
+    }
+
+    public int startNewGame(){
+        this.setVisible(false);
+        int select = JOptionPane.showOptionDialog(null,
+                "Koniec gry, gramy jeszcze?", "Gotowy?", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        if (select == JOptionPane.OK_OPTION) {
+            this.gameBoard.resetGameBoard();
+            this.setVisible(true);
+            return 1;
+        } else if (select == JOptionPane.CANCEL_OPTION) {
+            dispose();
+            System.exit(0);
+            return 0;
+        }
+        return 0;
     }
 
     private void initWindows(){
@@ -48,12 +68,24 @@ public class Game extends JFrame  {
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+
+
     }
 
 
     public static void main(String[] args){
-        Game game = new Game();
-        game.setVisible(true);
+            Game game = new Game();
+            int start = JOptionPane.showOptionDialog(null,
+                    "Jestes gotowy?", "Gotowy?", JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE, null, null, null);
+            if (start == JOptionPane.OK_OPTION) {
+                game.getGameTimer().start();
+            } else if (start == JOptionPane.CANCEL_OPTION) {
+                game.dispose();
+                System.exit(0);
+            }
+            game.setVisible(true);
+
     }
 
 }
