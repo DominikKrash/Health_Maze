@@ -14,6 +14,9 @@ public class GameBoard extends Canvas implements KeyListener{
     final private String bushRightUrl = "src/Resources/Images/bushRotateRight.png";
     final private String pathUrl = "src/Resources/Images/path.png";
     final private String wallUrl = "src/Resources/Images/wall.png";
+    final private int[] goodFood = {1};
+    final private int[] badFood = {-1};
+
 
     final private int numberOfPanels = 2;
     final private int lengthOfPanel = 9;
@@ -22,25 +25,62 @@ public class GameBoard extends Canvas implements KeyListener{
     private int blockSize;
 
 
+
     private GameBoardSegment[] gameBoardSegments;
     private Hero hero;
     private int gameBoardDesign[][];
+    private int itemsOnBoard[][];
 
     /*end of variables */
     int getBlockSize(){
         return this.blockSize;
     }
+    private Item returnCollectibleByID(int id,int x,int y){
+        if(id == 1) return new Banana(x,y);
+        else if(id == -1) return new HotDog(x,y);
+        return null;
+    }
+    private void spawnCollectibles(final int ammount){
+        //trzeba uwazac zeby nie wrzucic za duzo bo nieskonczoa petla albo dodac zabezpieczenie
+        //spawn fruits
+        Random r = new Random();
+        for(int i = 0;i < ammount;i++){
+            int x,y;
+            x = r.nextInt(lengthOfPanel * numberOfPanels);
+            y = r.nextInt(lengthOfPanel * numberOfPanels);
+            while(itemsOnBoard[y][x] == 0 && gameBoardDesign[y][x] != 0){
+                x = r.nextInt(lengthOfPanel * numberOfPanels);
+                y = r.nextInt(lengthOfPanel * numberOfPanels);
+            }
+            int which = r.nextInt(goodFood.length);
+            itemsOnBoard[y][x] = goodFood[which];
+        }
+        //spawn bad food
+        for(int i = 0;i <ammount + 2;i++){
+            int x,y;
+            x = r.nextInt(lengthOfPanel * numberOfPanels);
+            y = r.nextInt(lengthOfPanel * numberOfPanels);
+            while(itemsOnBoard[y][x] == 0 && gameBoardDesign[y][x] != 0){
+                x = r.nextInt(lengthOfPanel * numberOfPanels);
+                y = r.nextInt(lengthOfPanel * numberOfPanels);
+            }
+            int which = r.nextInt(badFood.length);
+            itemsOnBoard[y][x] = badFood[which];
+        }
 
+    }
 
     GameBoard(int blockSize){
         this.blockSize = blockSize;
         gameBoardDesign = new int
                 [numberOfPanels * lengthOfPanel][numberOfPanels * lengthOfPanel];
+        itemsOnBoard = new int
+                [numberOfPanels * lengthOfPanel][numberOfPanels * lengthOfPanel];
         setUpGameBoard();
         //fill entire board
         fillBoard();
         this.hero = createHero();
-
+        spawnCollectibles(2);
         addKeyListener(this);
         setFocusable(true);
     }
@@ -124,11 +164,25 @@ public class GameBoard extends Canvas implements KeyListener{
         g.drawImage(heroIMG,hero.getPosX()*blockSize + dX + blockSize,
                 hero.getPosY()*blockSize + blockSize,this);
    }
+   private void paintCollectibles(Graphics g){
+        Image img;
+       for(int y = 0;y < lengthOfPanel * numberOfPanels;y++){
+           for(int x = 0; x < lengthOfPanel * numberOfPanels;x++){
+               if(itemsOnBoard[y][x] != 0){
+                   img = getToolkit()
+                           .getImage(returnCollectibleByID(itemsOnBoard[y][x],x,y).getSkinURL());
+                   g.drawImage(img,x*blockSize + dX + blockSize
+                           ,y*blockSize + blockSize,this);
+               }
+           }
+       }
+   }
    @Override
    public void paint(Graphics g){
        paintSides(g);
        paintSegments(g);
        paintHero(g);
+       paintCollectibles(g);
     }
     private Direction checkMove(char btn){
         int x = hero.getPosX();

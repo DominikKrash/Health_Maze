@@ -10,7 +10,6 @@ public abstract class Item {
         this.skinURL = skinURL;
     }
 
-    private String skinURL;
 
     public int getPosX() {
         return posX;
@@ -33,6 +32,26 @@ public abstract class Item {
     }
 
     private int posY,posX;
+    private int bonusPoint;
+    private int bonusTime;
+
+    public int getBonusPoint() {
+        return bonusPoint;
+    }
+
+    public int getBonusTime() {
+        return bonusTime;
+    }
+
+    public void setBonusPoint(int bonusPoint) {
+        this.bonusPoint = bonusPoint;
+    }
+
+    public void setBonusTime(int bonusTime) {
+        this.bonusTime = bonusTime;
+    }
+
+    private String skinURL;
 
     Item(int x,int y,String skin){
         this.posX = x;

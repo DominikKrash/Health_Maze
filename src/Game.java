@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -11,9 +12,12 @@ public class Game extends JFrame  {
     private final int blockNumberPerSegment = 9;
 
     public static JLabel timerLabel;
+    public static JLabel pointsLabel;
+
     private GameBoard gameBoard;
     private GameTimer gameTimer;
-    private int gameTimeDuration = 3;
+    private int gameTimeDuration = 1000;
+    private int points;
 
     public int getBlockPixelWidth() {
         return blockPixelWidth;
@@ -34,6 +38,7 @@ public class Game extends JFrame  {
     public Game(){
         GameBoardSegment.setBlockNumber(blockNumberPerSegment);
         GameBoardSegment.getSegmentPatterns();
+        this.points = 0;
         this.gameBoard = new GameBoard(getBlockPixelWidth());
         gameTimer = new GameTimer(gameTimeDuration,this);
         initWindows();
@@ -46,6 +51,7 @@ public class Game extends JFrame  {
                 JOptionPane.INFORMATION_MESSAGE, null, null, null);
         if (select == JOptionPane.OK_OPTION) {
             this.gameBoard.resetGameBoard();
+            this.points = 0;
             this.setVisible(true);
             return 1;
         } else if (select == JOptionPane.CANCEL_OPTION) {
@@ -56,9 +62,18 @@ public class Game extends JFrame  {
         return 0;
     }
 
+    private void setPointsLabel(){
+        this.pointsLabel = new JLabel("Punkty: " +Integer.toString(this.points));
+        this.pointsLabel.setForeground(Color.BLACK);
+        this.pointsLabel.setFont(new Font(Font.SANS_SERIF,Font.BOLD,26));
+        Dimension d = Game.timerLabel.getPreferredSize();
+        this.pointsLabel.setBounds(20,440,160,26);
+    }
     private void initWindows(){
+        setPointsLabel();
         setLayout(null);
         getGameBoard().setBounds(0,0,1200,800);
+        add(pointsLabel);
         add(timerLabel);
         add(getGameBoard());
         pack();
@@ -67,8 +82,6 @@ public class Game extends JFrame  {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-
 
     }
 
