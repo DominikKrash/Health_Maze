@@ -79,7 +79,7 @@ public class Game extends JFrame  {
         this.pointsLabel.setForeground(Color.BLACK);
         this.pointsLabel.setFont(new Font(Font.SANS_SERIF,Font.BOLD,26));
         Dimension d = Game.timerLabel.getPreferredSize();
-        this.pointsLabel.setBounds(20,440,160,26);
+        this.pointsLabel.setBounds(20,440,220,26);
     }
     private void initWindows(){
         setPointsLabel();

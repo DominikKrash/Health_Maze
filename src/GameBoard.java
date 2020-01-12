@@ -14,8 +14,8 @@ public class GameBoard extends Canvas implements KeyListener{
     final private String bushRightUrl = "src/Resources/Images/bushRotateRight.png";
     final private String pathUrl = "src/Resources/Images/path.png";
     final private String wallUrl = "src/Resources/Images/wall.png";
-    final private int[] goodFood = {1};
-    final private int[] badFood = {-1};
+    final private int[] goodFood = {1,2};
+    final private int[] badFood = {-1,-2};
 
 
     final private int numberOfPanels = 2;
@@ -38,12 +38,16 @@ public class GameBoard extends Canvas implements KeyListener{
     }
     private Item returnCollectibleByID(int id,int x,int y){
         if(id == 1) return new Banana(x,y);
+        else if(id == 2) return new Apple(x,y);
         else if(id == -1) return new HotDog(x,y);
+        else if(id == -2) return new Fries(x,y);
         return null;
     }
     private Item returnCollectibleByID(int id){
         if(id == 1) return new Banana();
+        else if(id == 2) return new Apple();
         else if(id == -1) return new HotDog();
+        else if(id == -2) return new Fries();
         return null;
     }
     private void spawnCollectibles(final int ammount){
@@ -87,7 +91,7 @@ public class GameBoard extends Canvas implements KeyListener{
         //fill entire board
         fillBoard();
         this.hero = createHero();
-        spawnCollectibles(2);
+        spawnCollectibles(3);
         addKeyListener(this);
         setFocusable(true);
     }
@@ -111,6 +115,7 @@ public class GameBoard extends Canvas implements KeyListener{
             y = r.nextInt(lengthOfPanel * numberOfPanels);
         }
         Hero hero = new Hero(x,y);
+        itemsOnBoard[y][x] = 999;
         return hero;
     }
     private void fillBoard(){
@@ -178,7 +183,7 @@ public class GameBoard extends Canvas implements KeyListener{
         Image img;
        for(int y = 0;y < lengthOfPanel * numberOfPanels;y++){
            for(int x = 0; x < lengthOfPanel * numberOfPanels;x++){
-               if(itemsOnBoard[y][x] != 0){
+               if(itemsOnBoard[y][x] != 0 && itemsOnBoard[y][x] != 999){
                    img = getToolkit()
                            .getImage(returnCollectibleByID(itemsOnBoard[y][x],x,y).getSkinURL());
                    g.drawImage(img,x*blockSize + dX + blockSize
@@ -245,6 +250,7 @@ public class GameBoard extends Canvas implements KeyListener{
     public boolean checkCollisionWithItem(){
         if(itemsOnBoard[hero.getPosY()][hero.getPosX()] == 0){
             this.hero.playJumpSound();
+            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 999;
            return false; //nie trafilismy na nic
         }else if(itemsOnBoard[hero.getPosY()][hero.getPosX()] != 0){
             if(itemsOnBoard[hero.getPosY()][hero.getPosX()]>0) {
@@ -263,7 +269,7 @@ public class GameBoard extends Canvas implements KeyListener{
                         returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]).getBonusTime());
                 addNewItem(itemsOnBoard[hero.getPosY()][hero.getPosX()]);
             }
-            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 0;
+            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 999;
             return true;
         }
         return false;
@@ -274,18 +280,22 @@ public class GameBoard extends Canvas implements KeyListener{
         Boolean toRepaint = false;
         Direction check = checkMove(Character.toLowerCase(e.getKeyChar()));
         if(check == Direction.RIGTH){
+            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 0;
             this.hero.moveStep(1,0);
             checkCollisionWithItem();
             toRepaint = true;
         }else if(check == Direction.LEFT){
+            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 0;
             this.hero.moveStep(-1,0);
             checkCollisionWithItem();
             toRepaint = true;
         }else if(check == Direction.UP){
+            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 0;
             this.hero.moveStep(0,-1);
             checkCollisionWithItem();
             toRepaint = true;
         } else if(check == Direction.DOWN){
+            itemsOnBoard[hero.getPosY()][hero.getPosX()] = 0;
             this.hero.moveStep(0,1);
             checkCollisionWithItem();
             toRepaint = true;
