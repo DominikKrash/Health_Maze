@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -20,6 +21,7 @@ public class GameBoard extends Canvas implements KeyListener{
     private int sideLength = (9 * numberOfPanels) + 2; // full length plus corners
     private int blockSize;
 
+
     private GameBoardSegment[] gameBoardSegments;
     private Hero hero;
     private int gameBoardDesign[][];
@@ -29,6 +31,7 @@ public class GameBoard extends Canvas implements KeyListener{
         return this.blockSize;
     }
 
+
     GameBoard(int blockSize){
         this.blockSize = blockSize;
         gameBoardDesign = new int
@@ -37,8 +40,16 @@ public class GameBoard extends Canvas implements KeyListener{
         //fill entire board
         fillBoard();
         this.hero = createHero();
-        addKeyListener(this);
 
+        addKeyListener(this);
+        setFocusable(true);
+    }
+    public void resetGameBoard(){
+        gameBoardDesign = new int
+                [numberOfPanels * lengthOfPanel][numberOfPanels * lengthOfPanel];
+        setUpGameBoard();
+        fillBoard();
+        this.hero = createHero();
     }
     public Hero createHero(){
         Random r = new Random();
@@ -178,4 +189,6 @@ public class GameBoard extends Canvas implements KeyListener{
     public void keyReleased(KeyEvent e) {
 
     }
+
+
 }
