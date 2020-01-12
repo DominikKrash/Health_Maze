@@ -45,6 +45,15 @@ public abstract class Item {
     private int posY,posX;
     private int bonusPoint;
     private int bonusTime;
+    private String valuesInfo;
+
+    public String getValuesInfo() {
+        return valuesInfo;
+    }
+
+    public void setValuesInfo(String valuesInfo) {
+        this.valuesInfo = valuesInfo;
+    }
 
     public int getBonusPoint() {
         return bonusPoint;

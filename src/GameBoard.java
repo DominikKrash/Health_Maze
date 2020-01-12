@@ -255,18 +255,22 @@ public class GameBoard extends Canvas implements KeyListener{
         }else if(itemsOnBoard[hero.getPosY()][hero.getPosX()] != 0){
             if(itemsOnBoard[hero.getPosY()][hero.getPosX()]>0) {
                 hero.playSound(hero.getGoodFoodSound());
+                Item temp = returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]);
                 this.game.setPoints(
-                        returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]).getBonusPoint());
+                        temp.getBonusPoint());
                 this.game.setNewTime(
-                        returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]).getBonusTime());
+                        temp.getBonusTime());
+                this.game.setFoodInfo(temp.getValuesInfo(),1);
                 addNewItem(itemsOnBoard[hero.getPosY()][hero.getPosX()]);
             }
             else if(itemsOnBoard[hero.getPosY()][hero.getPosX()]< 0) {
                 hero.playSound(hero.getBadFoodSound());
+                Item temp = returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]);
                 this.game.setPoints(
-                        returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]).getBonusPoint());
+                        temp.getBonusPoint());
                 this.game.setNewTime(
-                        returnCollectibleByID(itemsOnBoard[hero.getPosY()][hero.getPosX()]).getBonusTime());
+                        temp.getBonusTime());
+                this.game.setFoodInfo(temp.getValuesInfo(),-1);
                 addNewItem(itemsOnBoard[hero.getPosY()][hero.getPosX()]);
             }
             itemsOnBoard[hero.getPosY()][hero.getPosX()] = 999;
