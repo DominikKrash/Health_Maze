@@ -6,6 +6,17 @@ import java.awt.*;
 import java.io.File;
 
 public abstract class Item {
+    private final String goodFoodSound = "src/Resources/Sounds/pyszne.wav";
+    private final String badFoodSound = "src/Resources/Sounds/niezdrowe.wav";
+
+    public String getBadFoodSound() {
+        return badFoodSound;
+    }
+
+    public String getGoodFoodSound() {
+        return goodFoodSound;
+    }
+
     public void setSkinURL(String skinURL) {
         this.skinURL = skinURL;
     }
@@ -86,5 +97,6 @@ public abstract class Item {
             e.printStackTrace();
         }
     }
+
 
 }

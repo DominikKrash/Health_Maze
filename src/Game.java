@@ -16,9 +16,20 @@ public class Game extends JFrame  {
 
     private GameBoard gameBoard;
     private GameTimer gameTimer;
-    private int gameTimeDuration = 1000;
+    private int gameTimeDuration = 60;
     private int points;
 
+    public void setPoints(int dPoints) {
+        this.points += dPoints;
+        pointsLabel.setText("Punkty: " +Integer.toString(this.points));
+    }
+
+    public int getPoints() {
+        return points;
+    }
+    public void setNewTime(long dTime){
+        this.gameTimer.setTime(gameTimer.getTime() + dTime);
+    }
     public int getBlockPixelWidth() {
         return blockPixelWidth;
     }
@@ -39,7 +50,7 @@ public class Game extends JFrame  {
         GameBoardSegment.setBlockNumber(blockNumberPerSegment);
         GameBoardSegment.getSegmentPatterns();
         this.points = 0;
-        this.gameBoard = new GameBoard(getBlockPixelWidth());
+        this.gameBoard = new GameBoard(getBlockPixelWidth(),this);
         gameTimer = new GameTimer(gameTimeDuration,this);
         initWindows();
     }
@@ -47,11 +58,12 @@ public class Game extends JFrame  {
     public int startNewGame(){
         this.setVisible(false);
         int select = JOptionPane.showOptionDialog(null,
-                "Koniec gry, gramy jeszcze?", "Gotowy?", JOptionPane.OK_CANCEL_OPTION,
+                "Koniec gry,uzyskales: "+this.points+"pkt, gramy jeszcze?", "Gotowy?", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE, null, null, null);
         if (select == JOptionPane.OK_OPTION) {
             this.gameBoard.resetGameBoard();
             this.points = 0;
+            pointsLabel.setText("Punkty: " +Integer.toString(this.points));
             this.setVisible(true);
             return 1;
         } else if (select == JOptionPane.CANCEL_OPTION) {

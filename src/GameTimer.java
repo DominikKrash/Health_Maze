@@ -20,13 +20,21 @@ public class GameTimer extends Thread {
         Game.timerLabel.setForeground(Color.RED);
         Game.timerLabel.setFont(new Font(Font.SANS_SERIF,Font.BOLD,textSize));
         Dimension d = Game.timerLabel.getPreferredSize();
-        Game.timerLabel.setBounds(50,300,d.width,d.height);
+        Game.timerLabel.setBounds(50,300,d.width+100,d.height);
         runnning = true;
         gameRunning = true;
     }
 
     public long getStartTimeTime() {
         return startTime;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public long getTime() {
+        return time;
     }
 
     @Override
