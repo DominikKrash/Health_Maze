@@ -148,21 +148,30 @@ public class GameBoard extends Canvas implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        Boolean toRepaint = false;
         Direction check = checkMove(e.getKeyChar());
         if(check == Direction.RIGTH){
             this.hero.moveStep(1,0);
             this.hero.playJumpSound();
+            toRepaint = true;
         }else if(check == Direction.LEFT){
             this.hero.moveStep(-1,0);
             this.hero.playJumpSound();
+            toRepaint = true;
         }else if(check == Direction.UP){
             this.hero.moveStep(0,-1);
             this.hero.playJumpSound();
+            toRepaint = true;
         } else if(check == Direction.DOWN){
             this.hero.moveStep(0,1);
             this.hero.playJumpSound();
+            toRepaint = true;
         }
-        repaint();
+        if(toRepaint){
+            repaint(this.hero.getPosX()*blockSize - blockSize + dX
+                    ,this.hero.getPosY()*blockSize -blockSize
+                    ,blockSize* 4,blockSize*4);}
+
     }
 
     @Override
