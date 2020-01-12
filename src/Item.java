@@ -6,11 +6,21 @@ import java.awt.*;
 import java.io.File;
 
 public abstract class Item {
+    private final String goodFoodSound = "src/Resources/Sounds/pyszne.wav";
+    private final String badFoodSound = "src/Resources/Sounds/niezdrowe.wav";
+
+    public String getBadFoodSound() {
+        return badFoodSound;
+    }
+
+    public String getGoodFoodSound() {
+        return goodFoodSound;
+    }
+
     public void setSkinURL(String skinURL) {
         this.skinURL = skinURL;
     }
 
-    private String skinURL;
 
     public int getPosX() {
         return posX;
@@ -33,6 +43,26 @@ public abstract class Item {
     }
 
     private int posY,posX;
+    private int bonusPoint;
+    private int bonusTime;
+
+    public int getBonusPoint() {
+        return bonusPoint;
+    }
+
+    public int getBonusTime() {
+        return bonusTime;
+    }
+
+    public void setBonusPoint(int bonusPoint) {
+        this.bonusPoint = bonusPoint;
+    }
+
+    public void setBonusTime(int bonusTime) {
+        this.bonusTime = bonusTime;
+    }
+
+    private String skinURL;
 
     Item(int x,int y,String skin){
         this.posX = x;
@@ -67,5 +97,6 @@ public abstract class Item {
             e.printStackTrace();
         }
     }
+
 
 }
